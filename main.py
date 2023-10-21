@@ -37,6 +37,14 @@ def collisions(player, obstacles):
 def playerAnimation():
     global playerSurf, playerIndex
     
+    if playerRect.bottom < 300:
+        playerSurf = playerJump
+    else:
+        #walking animation
+        playerIndex += 0.1
+        if playerIndex >= len(playerWalk):playerIndex = 0
+        playerSurf = playerWalk[int(playerIndex)]
+        
 pygame.init()
 screen = pygame.display.set_mode((800, 400))
 pygame.display.set_caption("Hijabi Runner")
@@ -66,17 +74,17 @@ obstacleRectList = []
 
 
 #player
-playerSurface = pygame.image.load("graphics/player_walk_1.png").convert_alpha()
-playerSurface2 = pygame.image.load("graphics/player_walk_2.png").convert_alpha()
+playerSurface = pygame.image.load("graphics/1.png").convert_alpha()
+playerSurface2 = pygame.image.load("graphics/2.png").convert_alpha()
 playerWalk = [playerSurface, playerSurface2]
 playerIndex = 0
 playerJump = pygame.image.load("graphics/jump.png").convert_alpha()
-playerSurf = playerSurface[playerIndex]
-playerRect = playerSurface.get_rect(midbottom = (80, 300))
+playerSurf = playerWalk[playerIndex]
+playerRect = playerSurf.get_rect(midbottom = (80, 300))
 playerGravity = 0
 
 #intro screen
-playerStand = pygame.image.load("graphics/player_stand.png").convert_alpha()
+playerStand = pygame.image.load("graphics/try.png").convert_alpha()
 playerStand = pygame.transform.scale2x(playerStand)
 playerStandRect = playerStand.get_rect(center = (400, 200))
 
@@ -138,7 +146,7 @@ while True:
         playerAnimation()
         #if playerRect.top <= 0:
         #    playerRect.top = 0
-        screen.blit(playerSurface, playerRect)
+        screen.blit(playerSurf, playerRect)
         
         #obstacle Movement
         obstacleRectList = obstacleMovement(obstacleRectList)
